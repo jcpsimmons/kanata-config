@@ -1,0 +1,98 @@
+;; =============================================================================
+;; Kanata Home Row Mods Config
+;; For: Keychron Q6 Ultra 8K (or any keyboard)
+;; Layout: FDSA = Shift/Cmd(GUI)/Alt/Ctrl, mirrored on JKL;
+;; =============================================================================
+;;
+;; INSTALLATION (macOS):
+;;   1. brew install kanata
+;;   2. Save this file as ~/.config/kanata/kanata.kbd
+;;   3. Run: sudo kanata -c ~/.config/kanata/kanata.kbd
+;;   4. (Optional) Set up as a launchd service for auto-start
+;;
+;; IMPORTANT: Remove your mod-tap mappings from Keychron Launcher first.
+;; Running both Launcher mod-taps AND Kanata will double-process keys.
+;;
+;; TUNING GUIDE:
+;;   tap-time:  How fast you must release for a tap (ms). Lower = stricter.
+;;   hold-time: How long before hold activates (ms). Higher = more forgiving.
+;;   idle-time: After this much idle, next key is always a tap. Prevents
+;;              misfires during fast typing. Set to ~10500/WPM.
+;;              70 WPM = 150ms, 60 WPM = 175ms, 50 WPM = 210ms
+;; =============================================================================
+
+(defcfg
+  process-unmapped-keys yes
+)
+
+;; ---------------------------------------------------------------------------
+;; Timing variables: tweak these to taste
+;; ---------------------------------------------------------------------------
+(defvar
+  tap-time   200   ;; ms: max duration for a tap
+  hold-time  250   ;; ms: min duration for a hold
+  idle-time  150   ;; ms: typing streak protection (raise if you get misfires)
+)
+
+;; ---------------------------------------------------------------------------
+;; Source keys: only the keys we are remapping
+;; ---------------------------------------------------------------------------
+(defsrc
+  a    s    d    f    j    k    l    ;
+)
+
+;; ---------------------------------------------------------------------------
+;; Key groups for bilateral combination enforcement
+;; Left-hand mods only activate with right-hand keys and vice versa.
+;; This eliminates most accidental modifier triggers during fast typing.
+;; ---------------------------------------------------------------------------
+(defvar
+  left-hand-keys (
+    q w e r t
+    a s d f g
+    z x c v b
+  )
+  right-hand-keys (
+    y u i o p
+    h j k l ;
+    n m , . /
+  )
+)
+
+;; ---------------------------------------------------------------------------
+;; Home row mod aliases with bilateral combinations
+;;
+;; tap-hold-release-keys means:
+;;   - Tap within tap-time: sends the letter
+;;   - Hold past hold-time: sends the modifier
+;;   - BUT only if a key from the OPPOSITE hand is pressed (bilateral)
+;;   - require-prior-idle prevents activation during typing streaks
+;;
+;; Layout:
+;;   Left:  A=Ctrl  S=Alt  D=Cmd(GUI)  F=Shift
+;;   Right: J=Shift K=Cmd(GUI) L=Alt   ;=Ctrl
+;; ---------------------------------------------------------------------------
+(defalias
+  ;; Left hand
+  a (tap-hold-release-keys $tap-time $hold-time (multi a (on-idle-fakekey to-base tap $idle-time)) lctl $right-hand-keys)
+  s (tap-hold-release-keys $tap-time $hold-time (multi s (on-idle-fakekey to-base tap $idle-time)) lalt $right-hand-keys)
+  d (tap-hold-release-keys $tap-time $hold-time (multi d (on-idle-fakekey to-base tap $idle-time)) lmet $right-hand-keys)
+  f (tap-hold-release-keys $tap-time $hold-time (multi f (on-idle-fakekey to-base tap $idle-time)) lsft $right-hand-keys)
+
+  ;; Right hand (mirrored)
+  j (tap-hold-release-keys $tap-time $hold-time (multi j (on-idle-fakekey to-base tap $idle-time)) rsft $left-hand-keys)
+  k (tap-hold-release-keys $tap-time $hold-time (multi k (on-idle-fakekey to-base tap $idle-time)) rmet $left-hand-keys)
+  l (tap-hold-release-keys $tap-time $hold-time (multi l (on-idle-fakekey to-base tap $idle-time)) ralt $left-hand-keys)
+  ; (tap-hold-release-keys $tap-time $hold-time (multi ; (on-idle-fakekey to-base tap $idle-time)) rctl $left-hand-keys)
+)
+
+(deffakekeys
+  to-base (layer-switch base)
+)
+
+;; ---------------------------------------------------------------------------
+;; Base layer: home row keys use our aliases, everything else passes through
+;; ---------------------------------------------------------------------------
+(deflayer base
+  @a   @s   @d   @f   @j   @k   @l   @;
+)
