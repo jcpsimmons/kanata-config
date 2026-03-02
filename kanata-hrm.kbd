@@ -65,7 +65,7 @@
 ;; ---------------------------------------------------------------------------
 ;; Home row mod aliases with bilateral combinations
 ;;
-;; tap-hold-press-keys means:
+;; tap-hold-release-keys means:
 ;;   - Tap within tap-time: sends the letter
 ;;   - Hold past hold-time: sends the modifier
 ;;   - BUT only if a key from the OPPOSITE hand is pressed (bilateral)
@@ -77,16 +77,16 @@
 ;; ---------------------------------------------------------------------------
 (defalias
   ;; Left hand
-  a (tap-hold-press-keys $tap-time $hold-time (multi a (on-idle-fakekey to-base tap $idle-time)) lctl $right-hand-keys)
-  s (tap-hold-press-keys $tap-time $hold-time (multi s (on-idle-fakekey to-base tap $idle-time)) lalt $right-hand-keys)
-  d (tap-hold-press-keys $tap-time $hold-time (multi d (on-idle-fakekey to-base tap $idle-time)) lmet $right-hand-keys)
-  f (tap-hold-press-keys $tap-time $hold-time (multi f (on-idle-fakekey to-base tap $idle-time)) lsft $right-hand-keys)
+  a (tap-hold-release-keys $tap-time $hold-time (multi a (on-idle-fakekey to-base tap $idle-time)) lctl $right-hand-keys)
+  s (tap-hold-release-keys $tap-time $hold-time (multi s (on-idle-fakekey to-base tap $idle-time)) lalt $right-hand-keys)
+  d (tap-hold-release-keys $tap-time $hold-time (multi d (on-idle-fakekey to-base tap $idle-time)) lmet $right-hand-keys)
+  f (tap-hold-release-keys $tap-time $hold-time (multi f (on-idle-fakekey to-base tap $idle-time)) lsft $right-hand-keys)
 
   ;; Right hand (mirrored)
-  j (tap-hold-press-keys $tap-time $hold-time (multi j (on-idle-fakekey to-base tap $idle-time)) rsft $left-hand-keys)
-  k (tap-hold-press-keys $tap-time $hold-time (multi k (on-idle-fakekey to-base tap $idle-time)) rmet $left-hand-keys)
-  l (tap-hold-press-keys $tap-time $hold-time (multi l (on-idle-fakekey to-base tap $idle-time)) ralt $left-hand-keys)
-  ; (tap-hold-press-keys $tap-time $hold-time (multi ; (on-idle-fakekey to-base tap $idle-time)) rctl $left-hand-keys)
+  j (tap-hold-release-keys $tap-time $hold-time (multi j (on-idle-fakekey to-base tap $idle-time)) rsft $left-hand-keys)
+  k (tap-hold-release-keys $tap-time $hold-time (multi k (on-idle-fakekey to-base tap $idle-time)) rmet $left-hand-keys)
+  l (tap-hold-release-keys $tap-time $hold-time (multi l (on-idle-fakekey to-base tap $idle-time)) ralt $left-hand-keys)
+  ; (tap-hold-release-keys $tap-time $hold-time (multi ; (on-idle-fakekey to-base tap $idle-time)) rctl $left-hand-keys)
 )
 
 (deffakekeys
