@@ -33,7 +33,7 @@
 ;; ---------------------------------------------------------------------------
 (defvar
   tap-time   200   ;; ms: max duration for a tap
-  hold-time  200   ;; ms: min duration for a hold
+  hold-time  175   ;; ms: min duration for a hold
   idle-time  150   ;; ms: typing streak protection (raise if you get misfires)
 )
 
