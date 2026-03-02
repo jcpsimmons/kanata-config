@@ -23,6 +23,9 @@
 
 (defcfg
   process-unmapped-keys yes
+  macos-dev-names-include (
+    "Keychron Q6 Ultra 8K"
+  )
 )
 
 ;; ---------------------------------------------------------------------------
